@@ -1,14 +1,8 @@
-CC = gcc
-
 all: master bin_adder
-
-.SUFFIXES: .c .o
-
 master: main.c
-	gcc -g -Wall -lpthread -lrt -lm -o master main.c
-
+	gcc -o master main.c -lpthread
 bin_adder: child.c
-	gcc -g -Wall -lpthread -lrt -lm -o bin_adder child.c
-
+	gcc -o bin_adder child.c -lpthread
 clean:
-	$(RM) master bin_adder *.txt *.o
+	-rm  master bin_adder
+

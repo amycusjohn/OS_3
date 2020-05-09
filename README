@@ -1,1 +1,60 @@
+Amy Seidel
+CS4760 - OS
+Project 3
+Used GIT and Github located at https://github.com/amycusjohn/OS_3
 This is the README for CS4760 Assignment 3
+
+Following sources were used
+http://www.csl.mtu.edu/cs4411.ck/www/NOTES/process/shm/shmdt.html
+https://www.geeksforgeeks.org/ipc-shared-memory/
+pubs.opengroup.org/onlinepubs/009695399/basedefs/semaphore.h.html
+
+#include <stdio.h>
+#include<math.h>
+int sum1(int n,int A[])
+{
+if(n==1) return A[0];
+int pairs_sum[n/2];
+int j=0;
+for(int i=0;i<n;i=i+2)
+{
+pairs_sum[j]=A[i]+A[i+1];
+j++;
+}
+return sum1(n/2,pairs_sum);
+}
+int sum2(int n,int A[])
+{
+int log_value= (log(n))/(log(2));
+int groups[(n/log_value)+1];
+int k=0;
+for(int j=0;j<n;j=j+log_value)
+{
+int temp_sum=0;
+for(int i=j;i<n && i<log_value+j;i++)
+{
+temp_sum=temp_sum+A[i];
+}
+groups[k]=temp_sum;
+k++;
+}
+int size=(n/log_value)+1;
+if(size%2!=0) size++;
+return sum1(size,groups);
+}
+int main()
+{
+//enter n
+int n;
+scanf("%d",&n);
+int A[n];
+//enter array elements
+for(int i=0;i<n;i++)
+{
+scanf("%d",&A[i]);
+}
+int s1=sum1(n,A);
+int s2=sum2(n,A);
+printf("Sum by matehod 1: %d\nSum by method 2: %d",s1,s2);
+return 0;
+}

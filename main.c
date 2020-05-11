@@ -63,7 +63,7 @@ int main(int argc, char *argv[]){
 
     char *buff;//Will write file to this and count number of words from here
     int n = 0;//Store max number of children
-    int s = 7;//Max number in system at any given time
+    int s = 19;//Max number in system at any given time
     char *i = NULL; //Inputfile
     i = "input.txt";
 
@@ -92,7 +92,7 @@ int main(int argc, char *argv[]){
     int count = 64;
     if(count != 0){
         //mylist count = # of words
-        int (*mylist)[count];
+        char (*mylist)[count];
 
         //create shared memory for string array
         key_t shmKey = ftok(".",'a');
@@ -112,9 +112,10 @@ int main(int argc, char *argv[]){
         char delims[4] = {' ','\n','\t','\0'};
         int i;
 
-        //strcpy(mylist[0],strtok(buff,delims));
+        strcpy(mylist[0],strtok(buff,delims));
         for(i = 1; i < count; i++){
-            fscanf(fp, "%d,", &mylist[i] );
+            strcpy(mylist[i],strtok(NULL,delims));
+           // printf("Data read into memory: %d\n", atoi(mylist[i]));
         }
         printf("added to my list!\n");
 
@@ -125,6 +126,9 @@ int main(int argc, char *argv[]){
             fprintf(stderr,"%s: Error in opening semaphore",argv[0]);
             exit(0);
         }
+
+
+
         int status;
         int active = 1;
         int k = 0;
@@ -166,6 +170,7 @@ int main(int argc, char *argv[]){
                 }
             }
         }
+
         printf("All finished!\n");
         //detach shared mem
         shmdt((void*)mylist);
